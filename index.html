@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>小自在生日时差与倒计时</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg1: #fff1f2;
+      --bg2: #eef2ff;
+      --bg3: #ecfeff;
+      --card: rgba(255, 255, 255, 0.78);
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #7c3aed;
+      --accent-2: #ec4899;
+      --border: rgba(255, 255, 255, 0.65);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg1: #0f172a;
+        --bg2: #1e1b4b;
+        --bg3: #052e2b;
+        --card: rgba(17, 24, 39, 0.72);
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+        --accent: #a78bfa;
+        --accent-2: #f472b6;
+        --border: rgba(148, 163, 184, 0.25);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 15% 20%, var(--bg3) 0%, transparent 38%),
+        radial-gradient(circle at 90% 10%, var(--bg2) 0%, transparent 45%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      color: var(--text);
+      padding: 20px;
+    }
+
+    .card {
+      width: min(720px, 100%);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 18px 40px rgba(76, 29, 149, 0.18);
+      backdrop-filter: blur(14px);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 1.9rem;
+      letter-spacing: 0.5px;
+    }
+
+    .desc {
+      margin: 0 0 20px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 15px;
+      background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.32),
+        rgba(255, 255, 255, 0.08)
+      );
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(124, 58, 237, 0.16);
+    }
+
+    .label {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .value {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      word-break: break-word;
+    }
+
+    .big {
+      font-size: 1.28rem;
+      font-weight: 700;
+      margin-top: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: glow 1.8s ease-in-out infinite alternate;
+    }
+
+    #elapsed {
+      white-space: pre-line;
+      line-height: 1.4;
+    }
+
+    .footnote {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #ffffff;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      vertical-align: middle;
+    }
+
+    @keyframes glow {
+      from {
+        filter: drop-shadow(0 0 0 rgba(236, 72, 153, 0.1));
+      }
+      to {
+        filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.45));
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>🎂 小自在生日记录 <span class="tag">成长中</span></h1>
+    <p class="desc">
+      👶 出生时间：北京时间 2026-02-10 13:12。<br />
+      ⏱️ 页面每秒自动刷新，显示与现在的时差，并倒计时到下一个生日。
+    </p>
+
+    <section class="grid">
+      <div class="item">
+        <div class="label">🕒 北京时间现在</div>
+        <div class="value" id="nowBj">--</div>
+      </div>
+
+      <div class="item">
+        <div class="label">🌟 已过去时间（从出生到现在）</div>
+        <div class="value big" id="elapsed">--</div>
+      </div>
+
+      <div class="item">
+        <div class="label">🎉 下一个生日</div>
+        <div class="value" id="nextBirthday">--</div>
+      </div>
+
+      <div class="item">
+        <div class="label">⏳ 距离下一个生日还有</div>
+        <div class="value big" id="countdown">--</div>
+      </div>
+    </section>
+
+    <p class="footnote">
+      💡 说明：所有时间按北京时间（Asia/Shanghai）计算与展示。
+    </p>
+  </main>
+
+  <script>
+    const nameText = "小自在";
+    const birthYear = 2026;
+    const birthMonth = 2;
+    const birthDay = 10;
+    const birthHour = 13;
+    const birthMinute = 12;
+
+    const birthUtcMs = Date.UTC(
+      birthYear,
+      birthMonth - 1,
+      birthDay,
+      birthHour - 8,
+      birthMinute,
+      0
+    );
+    const birthDate = new Date(birthUtcMs);
+
+    const fmtZh = new Intl.DateTimeFormat("zh-CN", {
+      timeZone: "Asia/Shanghai",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    });
+
+    const fmtDate = new Intl.DateTimeFormat("zh-CN", {
+      timeZone: "Asia/Shanghai",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false
+    });
+
+    function breakdown(ms) {
+      const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      return { days, hours, minutes, seconds };
+    }
+
+    function formatDuration(ms) {
+      const { days, hours, minutes, seconds } = breakdown(ms);
+      return `${days}天 ${hours}小时 ${minutes}分 ${seconds}秒`;
+    }
+
+    function formatElapsedWithTotalHours(ms) {
+      const totalHours = ms / 3600000;
+      const totalHoursText = totalHours.toLocaleString("zh-CN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      return `${formatDuration(ms)}\n累计 ${totalHoursText} 小时`;
+    }
+
+    function getCurrentBjParts(now) {
+      const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Asia/Shanghai",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }).formatToParts(now);
+
+      const get = (type) => Number(parts.find((p) => p.type === type).value);
+      return {
+        year: get("year"),
+        month: get("month"),
+        day: get("day"),
+        hour: get("hour"),
+        minute: get("minute"),
+        second: get("second")
+      };
+    }
+
+    function nextBirthdayMs(now) {
+      const bj = getCurrentBjParts(now);
+      let year = bj.year;
+
+      let candidate = Date.UTC(year, birthMonth - 1, birthDay, birthHour - 8, birthMinute, 0);
+      if (candidate <= now.getTime()) {
+        year += 1;
+        candidate = Date.UTC(year, birthMonth - 1, birthDay, birthHour - 8, birthMinute, 0);
+      }
+      return candidate;
+    }
+
+    function update() {
+      const now = new Date();
+      const nowMs = now.getTime();
+
+      document.getElementById("nowBj").textContent = fmtZh.format(now);
+
+      if (nowMs < birthUtcMs) {
+        const toBirth = birthUtcMs - nowMs;
+        document.getElementById("elapsed").textContent = `距离 ${nameText} 出生还有：${formatDuration(toBirth)}`;
+        document.getElementById("nextBirthday").textContent = `${nameText} 还未出生`;
+        document.getElementById("countdown").textContent = "--";
+        return;
+      }
+
+      const elapsed = nowMs - birthUtcMs;
+      document.getElementById("elapsed").textContent = formatElapsedWithTotalHours(elapsed);
+
+      const nextMs = nextBirthdayMs(now);
+      document.getElementById("nextBirthday").textContent = fmtDate.format(new Date(nextMs));
+      document.getElementById("countdown").textContent = formatDuration(nextMs - nowMs);
+    }
+
+    update();
+    setInterval(update, 1000);
+  </script>
+</body>
+</html>
