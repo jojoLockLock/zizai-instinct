@@ -7,6 +7,7 @@ window.STORAGE_DATA = [
       {
         name: "左下",
         children: [
+          { name: "电池" },
           { name: "眼镜" },
           { name: "照片" },
           { name: "其他小玩具周边等" },
@@ -35,8 +36,11 @@ window.STORAGE_DATA = [
       {
         name: "电子产品",
         children: [
-            { name: "switch 及相关配件", aliases: ["任天堂", "ns", "switch 配件"] },
-            { name: "鼠标", aliases: ["mouse"] },
+          {
+            name: "switch 及相关配件",
+            aliases: ["任天堂", "ns", "switch 配件"],
+          },
+          { name: "鼠标", aliases: ["mouse"] },
           { name: "U 盘 / 移动硬盘" },
           { name: "录音笔" },
           { name: "麦克风" },
