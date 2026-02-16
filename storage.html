@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>家庭电子储物记录</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #dbe1ea;
+      --accent: #2563eb;
+      --match: #fef08a;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --card: #111827;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --line: #334155;
+        --accent: #60a5fa;
+        --match: #854d0e;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      padding: 18px;
+    }
+
+    .app {
+      max-width: 820px;
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    .sub {
+      margin: 6px 0 14px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 14px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--card);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .search {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--text);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .search:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 22%, transparent);
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    .alias-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      white-space: nowrap;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .alias-toggle input {
+      margin: 0;
+      accent-color: var(--accent);
+    }
+
+    .tree {
+      margin: 0;
+      padding-left: 0;
+      list-style: none;
+      line-height: 1.8;
+    }
+
+    .tree ul {
+      margin: 0;
+      padding-left: 24px;
+      border-left: 1px dashed var(--line);
+    }
+
+    .tree li {
+      margin: 2px 0;
+    }
+
+    .tree > li {
+      margin: 0 0 12px;
+      list-style: none;
+    }
+
+    .tree > li:last-child {
+      margin-bottom: 0;
+    }
+
+    .container-box {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: color-mix(in oklab, var(--card) 88%, var(--accent) 12%);
+    }
+
+    .container-title {
+      display: inline-block;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .container-color-0 {
+      border-color: #f59e0b;
+      background: color-mix(in oklab, var(--card) 84%, #f59e0b 16%);
+    }
+
+    .container-color-1 {
+      border-color: #10b981;
+      background: color-mix(in oklab, var(--card) 84%, #10b981 16%);
+    }
+
+    .container-color-2 {
+      border-color: #3b82f6;
+      background: color-mix(in oklab, var(--card) 84%, #3b82f6 16%);
+    }
+
+    .container-color-3 {
+      border-color: #8b5cf6;
+      background: color-mix(in oklab, var(--card) 84%, #8b5cf6 16%);
+    }
+
+    .container-color-4 {
+      border-color: #ec4899;
+      background: color-mix(in oklab, var(--card) 84%, #ec4899 16%);
+    }
+
+    .container-color-5 {
+      border-color: #14b8a6;
+      background: color-mix(in oklab, var(--card) 84%, #14b8a6 16%);
+    }
+
+    .container-color-6 {
+      border-color: #ef4444;
+      background: color-mix(in oklab, var(--card) 84%, #ef4444 16%);
+    }
+
+    .container-color-7 {
+      border-color: #6366f1;
+      background: color-mix(in oklab, var(--card) 84%, #6366f1 16%);
+    }
+
+    .node-label {
+      word-break: break-word;
+    }
+
+    .node-alias {
+      color: var(--muted);
+      font-size: 0.9em;
+      margin-left: 6px;
+    }
+
+    mark {
+      background: var(--match);
+      color: inherit;
+      border-radius: 3px;
+      padding: 0 2px;
+    }
+
+    .empty {
+      margin: 12px 0 0;
+      color: var(--muted);
+    }
+
+    .history-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 0 0 12px;
+    }
+
+    .history-list {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .history-chip {
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .history-chip:hover {
+      border-color: var(--accent);
+    }
+
+    .history-clear {
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .history-clear:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <h1>家庭电子储物记录</h1>
+    <p class="sub">只读清单，支持关键词搜索（不支持编辑）。</p>
+
+    <div class="toolbar">
+      <input id="searchInput" class="search" type="text" placeholder="搜索位置或物品，例如：switch、药物、雨伞" />
+      <span id="countText" class="meta"></span>
+      <label class="alias-toggle" for="aliasToggle">
+        <input id="aliasToggle" type="checkbox" />
+        显示别称
+      </label>
+    </div>
+
+    <div id="historyBar" class="history-bar" hidden>
+      <span class="meta">搜索历史：</span>
+      <div id="historyList" class="history-list"></div>
+      <button id="clearHistoryBtn" type="button" class="history-clear">清除记录</button>
+    </div>
+
+    <div id="treeContainer"></div>
+    <p id="emptyText" class="empty" hidden>没有匹配结果。</p>
+  </main>
+
+  <script src="./storage-data.js"></script>
+
+  <script>
+    const rootData = window.STORAGE_DATA;
+    const searchInput = document.getElementById("searchInput");
+    const treeContainer = document.getElementById("treeContainer");
+    const emptyText = document.getElementById("emptyText");
+    const countText = document.getElementById("countText");
+    const aliasToggle = document.getElementById("aliasToggle");
+    const historyBar = document.getElementById("historyBar");
+    const historyList = document.getElementById("historyList");
+    const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+    const showAliasesStorageKey = "storage.showAliases";
+    const searchHistoryStorageKey = "storage.searchHistory";
+    const maxSearchHistory = 12;
+    let showAliases = true;
+    let searchHistory = [];
+
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function highlightLabel(label, query) {
+      const safeLabel = escapeHtml(label);
+      const cleanQuery = query.trim();
+      if (!cleanQuery) return safeLabel;
+
+      const lowerLabel = label.toLowerCase();
+      const lowerQuery = cleanQuery.toLowerCase();
+      const start = lowerLabel.indexOf(lowerQuery);
+      if (start === -1) return safeLabel;
+
+      const end = start + cleanQuery.length;
+      return (
+        escapeHtml(label.slice(0, start)) +
+        "<mark>" +
+        escapeHtml(label.slice(start, end)) +
+        "</mark>" +
+        escapeHtml(label.slice(end))
+      );
+    }
+
+    function getAliases(node) {
+      if (!Array.isArray(node.aliases)) return [];
+      return node.aliases
+        .filter((alias) => typeof alias === "string")
+        .map((alias) => alias.trim())
+        .filter(Boolean);
+    }
+
+    function renderAliasText(node, query) {
+      if (!showAliases) return "";
+      const aliases = getAliases(node);
+      if (aliases.length === 0) return "";
+      const aliasHtml = aliases.map((alias) => highlightLabel(alias, query)).join(" / ");
+      return `<span class="node-alias">（别称：${aliasHtml}）</span>`;
+    }
+
+    function readShowAliasesPreference() {
+      try {
+        const value = localStorage.getItem(showAliasesStorageKey);
+        if (value === null) return true;
+        return value === "1";
+      } catch {
+        return true;
+      }
+    }
+
+    function saveShowAliasesPreference(value) {
+      try {
+        localStorage.setItem(showAliasesStorageKey, value ? "1" : "0");
+      } catch {
+        // 忽略本地存储不可用的场景（例如隐身模式限制）
+      }
+    }
+
+    function readSearchHistory() {
+      try {
+        const raw = localStorage.getItem(searchHistoryStorageKey);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return [];
+        return parsed
+          .filter((item) => typeof item === "string")
+          .map((item) => item.trim())
+          .filter(Boolean)
+          .slice(0, maxSearchHistory);
+      } catch {
+        return [];
+      }
+    }
+
+    function saveSearchHistory() {
+      try {
+        if (searchHistory.length === 0) {
+          localStorage.removeItem(searchHistoryStorageKey);
+        } else {
+          localStorage.setItem(searchHistoryStorageKey, JSON.stringify(searchHistory));
+        }
+      } catch {
+        // 忽略本地存储不可用的场景（例如隐身模式限制）
+      }
+    }
+
+    function setSearchHistoryVisible(visible) {
+      historyBar.hidden = !visible;
+      historyBar.style.display = visible ? "flex" : "none";
+    }
+
+    function renderSearchHistory() {
+      if (searchHistory.length === 0) {
+        setSearchHistoryVisible(false);
+        historyList.innerHTML = "";
+        return;
+      }
+
+      setSearchHistoryVisible(true);
+      historyList.innerHTML = searchHistory
+        .map(
+          (query, index) =>
+            `<button type="button" class="history-chip" data-history-index="${index}">${escapeHtml(query)}</button>`
+        )
+        .join("");
+    }
+
+    function addSearchHistory(query) {
+      const cleanQuery = query.trim();
+      if (!cleanQuery) return;
+
+      const lowerQuery = cleanQuery.toLowerCase();
+      searchHistory = searchHistory.filter((item) => item.toLowerCase() !== lowerQuery);
+      searchHistory.unshift(cleanQuery);
+      if (searchHistory.length > maxSearchHistory) {
+        searchHistory = searchHistory.slice(0, maxSearchHistory);
+      }
+
+      saveSearchHistory();
+      renderSearchHistory();
+    }
+
+    function filterTree(node, query) {
+      const cleanQuery = query.trim().toLowerCase();
+      const aliases = getAliases(node);
+      const nameMatch = node.name.toLowerCase().includes(cleanQuery);
+      const aliasMatch = aliases.some((alias) => alias.toLowerCase().includes(cleanQuery));
+      const selfMatch = !cleanQuery || nameMatch || aliasMatch;
+      const children = Array.isArray(node.children) ? node.children : [];
+      const filteredChildren = children
+        .map((child) => filterTree(child, query))
+        .filter(Boolean);
+
+      if (selfMatch || filteredChildren.length > 0) {
+        return {
+          ...node,
+          children: filteredChildren
+        };
+      }
+      return null;
+    }
+
+    function countNodes(node) {
+      const children = Array.isArray(node.children) ? node.children : [];
+      return 1 + children.reduce((sum, child) => sum + countNodes(child), 0);
+    }
+
+    function renderNode(node, query, depth = 0, rootIndex = 0) {
+      const children = Array.isArray(node.children) ? node.children : [];
+      const childHtml = children
+        .map((child) => renderNode(child, query, depth + 1, rootIndex))
+        .join("");
+
+      if (depth === 0) {
+        const colorClass = `container-color-${rootIndex % 8}`;
+        return `
+          <li>
+            <div class="container-box ${colorClass}">
+              <span class="node-label container-title">${highlightLabel(node.name, query)}</span>${renderAliasText(node, query)}
+              ${childHtml ? `<ul>${childHtml}</ul>` : ""}
+            </div>
+          </li>
+        `;
+      }
+
+      return `
+        <li>
+          <span class="node-label">${highlightLabel(node.name, query)}</span>${renderAliasText(node, query)}
+          ${childHtml ? `<ul>${childHtml}</ul>` : ""}
+        </li>
+      `;
+    }
+
+    function filterForest(nodes, query) {
+      return nodes.map((node) => filterTree(node, query)).filter(Boolean);
+    }
+
+    function countForest(nodes) {
+      return nodes.reduce((sum, node) => sum + countNodes(node), 0);
+    }
+
+    function renderForest(nodes, query) {
+      return nodes.map((node, index) => renderNode(node, query, 0, index)).join("");
+    }
+
+    function renderTree(query) {
+      const filtered = filterForest(rootData, query);
+      if (filtered.length === 0) {
+        treeContainer.innerHTML = "";
+        emptyText.hidden = false;
+        countText.textContent = "0 条";
+        return;
+      }
+
+      emptyText.hidden = true;
+      const total = countForest(filtered);
+      countText.textContent = `${total} 条`;
+      treeContainer.innerHTML = `<ul class="tree">${renderForest(filtered, query)}</ul>`;
+    }
+
+    searchInput.addEventListener("input", () => {
+      renderTree(searchInput.value);
+    });
+
+    searchInput.addEventListener("change", () => {
+      addSearchHistory(searchInput.value);
+    });
+
+    searchInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        addSearchHistory(searchInput.value);
+      }
+    });
+
+    aliasToggle.addEventListener("change", () => {
+      showAliases = aliasToggle.checked;
+      saveShowAliasesPreference(showAliases);
+      renderTree(searchInput.value);
+      focusSearch();
+    });
+
+    historyList.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-history-index]");
+      if (!button) return;
+
+      const index = Number(button.dataset.historyIndex);
+      const query = searchHistory[index];
+      if (!query) return;
+
+      searchInput.value = query;
+      addSearchHistory(query);
+      renderTree(query);
+      focusSearch();
+    });
+
+    clearHistoryBtn.addEventListener("click", () => {
+      searchHistory = [];
+      saveSearchHistory();
+      renderSearchHistory();
+      focusSearch();
+    });
+
+    function focusSearch() {
+      if (document.activeElement !== searchInput) {
+        searchInput.focus({ preventScroll: true });
+      }
+    }
+
+    window.addEventListener("pageshow", focusSearch);
+    window.addEventListener("focus", focusSearch);
+
+    showAliases = readShowAliasesPreference();
+    aliasToggle.checked = showAliases;
+    searchHistory = readSearchHistory();
+    renderSearchHistory();
+
+    renderTree("");
+    focusSearch();
+  </script>
+</body>
+
+</html>
