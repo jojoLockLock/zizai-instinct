@@ -1,0 +1,572 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>日本川崎五日行程 2026 ✈️</title>
+<style>
+:root{--bg:#f5f7fa;--hbg:#1a1a2e;--hfg:#e94560;--pbg:#0f3460;--pfg:#fff;--prep:#f3e5f5;--trans:#e3f0ff;--food:#fff8e1;--dance:#fce4ec;--shop:#e8f5e9;--rest:#f5f0ff;--event:#ffe0b2;--flight:#e1f5fe;--done:#c8e6c9;--link:#1565c0;--cost:#e65100;--note:#666}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Hiragino Sans GB",sans-serif;background:var(--bg);color:#222;font-size:14px;line-height:1.5}
+.title-bar{background:var(--hbg);color:var(--hfg);text-align:center;padding:12px 14px;font-size:14px;font-weight:700;line-height:1.4;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.allergy-bar{background:#fff3e0;color:#e65100;font-size:12px;font-weight:700;padding:7px 14px;text-align:center;border-bottom:2px solid #ffcc80;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px}
+.progress-wrap{background:#f0f0f0;padding:7px 14px;display:flex;align-items:center;gap:8px;font-size:12px;color:#555}
+.progress-bar{flex:1;height:8px;background:#ddd;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:#43a047;border-radius:4px;transition:width .3s}
+.phase{background:var(--pbg);color:var(--pfg);font-weight:700;font-size:14px;padding:9px 14px;margin-top:6px}
+.card{background:#fff;border-left:4px solid #ccc;margin:3px 8px;border-radius:8px;padding:10px 12px;display:flex;gap:10px;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:background .2s}
+.card.done{opacity:.75}
+.card.done .item-title,.card.done .item-detail{text-decoration:line-through;color:#666!important}
+.bg-prep{background:var(--prep);border-left-color:#9c27b0}
+.bg-trans{background:var(--trans);border-left-color:#1976d2}
+.bg-food{background:var(--food);border-left-color:#f9a825}
+.bg-dance{background:var(--dance);border-left-color:#e91e63}
+.bg-shop{background:var(--shop);border-left-color:#388e3c}
+.bg-rest{background:var(--rest);border-left-color:#673ab7}
+.bg-event{background:var(--event);border-left-color:#ef6c00}
+.bg-flight{background:var(--flight);border-left-color:#0288d1}
+.bg-laundry{background:#f3e5f5;border-left-color:#9c27b0}
+.card.done{background:var(--done)!important;border-left-color:#66bb6a!important}
+.map-btn{display:inline-flex;align-items:center;gap:3px;background:#e8f5e9;color:#2e7d32;text-decoration:none;font-size:12px;font-weight:700;padding:3px 9px;border-radius:20px;border:1px solid #a5d6a7;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.map-btn:active{background:#c8e6c9}
+.chk-wrap{flex-shrink:0;padding-top:2px}
+input[type=checkbox]{width:24px;height:24px;cursor:pointer;accent-color:#43a047}
+.card-body{flex:1;min-width:0}
+.card-meta{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:5px}
+.seq{font-weight:700;color:#999;font-size:12px}
+.stage{font-size:11px;font-weight:700;color:#0f3460;background:rgba(15,52,96,.1);padding:1px 6px;border-radius:4px;white-space:nowrap}
+.time{font-size:12px;font-weight:700;color:#0f3460;white-space:nowrap}
+.type{font-size:13px;font-weight:700;white-space:nowrap}
+.item-title{font-size:14px;font-weight:700;color:#111;margin-bottom:4px}
+.item-detail{font-size:12px;color:#444;white-space:pre-line;margin-bottom:5px}
+.outfit-bar{background:#e8eaf6;border-radius:4px;padding:5px 8px;font-size:11px;color:#283593;margin-bottom:5px;border-left:3px solid #5c6bc0;line-height:1.5}
+.outfit-bar strong{color:#1a237e}
+.link-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px}
+.link-btn{display:inline-flex;align-items:center;gap:3px;background:#e3f2fd;color:var(--link);text-decoration:none;font-size:12px;font-weight:700;padding:3px 9px;border-radius:20px;border:1px solid #90caf9;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.link-btn:active{background:#bbdefb}
+.opts-block{margin-bottom:5px}
+.opt-item{font-size:12px;color:#444;margin-bottom:5px;display:flex;flex-wrap:wrap;align-items:center;gap:5px;line-height:1.6}
+.opt-item .opt-btns{display:inline-flex;flex-wrap:wrap;gap:4px}
+.speak-btn{display:inline-flex;align-items:center;gap:3px;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;font-size:12px;font-weight:700;padding:3px 9px;border-radius:20px;cursor:pointer;white-space:nowrap;font-family:inherit;-webkit-tap-highlight-color:transparent}
+.speak-btn:active,.speak-btn.playing{background:#c8e6c9}
+.meta-row{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline;font-size:12px;margin-top:3px}
+.cost{font-weight:700;color:var(--cost)}
+.note{color:var(--note);font-style:italic;flex:1}
+/* Phrase section */
+.phrase-section{margin:10px 8px 4px;background:#f1f8e9;border-radius:10px;padding:12px 14px;border:1px solid #c5e1a5}
+.phrase-section h2{font-size:14px;color:#1b5e20;font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #a5d6a7}
+.phrase-item{background:#fff;border-radius:8px;padding:10px 12px;margin-bottom:8px;border:1px solid #dcedc8}
+.phrase-jp{font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:2px;letter-spacing:.5px}
+.phrase-rom{font-size:11px;color:#888;margin-bottom:3px;font-style:italic}
+.phrase-cn{font-size:13px;color:#444;margin-bottom:7px}
+.phrase-actions{display:flex;gap:6px;flex-wrap:wrap}
+.phrase-speak-btn{background:#43a047;color:#fff;border:none;font-size:13px;font-weight:700;padding:6px 16px;border-radius:20px;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent}
+.phrase-speak-btn:active{background:#388e3c}
+/* Clothing guide section */
+.cloth-section{margin:6px 8px 4px;background:#e8eaf6;border-radius:10px;padding:12px 14px;border:1px solid #c5cae9}
+.cloth-section>h2{font-size:14px;color:#1a237e;font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #9fa8da;display:flex;align-items:center;gap:6px;flex-wrap:wrap;cursor:pointer}
+.cloth-toggle{background:#3f51b5;color:#fff;border:none;font-size:11px;font-weight:700;padding:2px 10px;border-radius:12px;cursor:pointer;font-family:inherit;margin-left:auto;flex-shrink:0}
+.weather-row{background:#fff3e0;border-radius:6px;padding:8px 10px;margin-bottom:8px;border:1px solid #ffe0b2;font-size:12px;color:#333;line-height:1.7}
+.weather-row strong{color:#e65100}
+.pack-grid{background:#fff;border-radius:6px;padding:8px 10px;margin-bottom:8px;border:1px solid #c5cae9}
+.pack-grid h3{font-size:12px;font-weight:700;color:#1a237e;margin-bottom:6px}
+.pack-grid ul{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:3px 8px}
+.pack-grid li{font-size:11px;color:#333;padding:2px 0;display:flex;align-items:flex-start;gap:3px}
+.pack-grid li::before{content:"✓";color:#3f51b5;font-weight:700;flex-shrink:0}
+.day-cloth{background:#fff;border-radius:6px;padding:8px 10px;margin-bottom:6px;border-left:3px solid #5c6bc0;font-size:12px}
+.day-cloth-title{font-weight:700;color:#3f51b5;margin-bottom:4px}
+.day-cloth-body{color:#444;white-space:pre-line}
+.laundry-tip{background:#f3e5f5;border-radius:6px;padding:6px 10px;margin-top:6px;font-size:11px;color:#6a1b9a;border:1px solid #ce93d8;font-weight:700}
+.footer{text-align:center;padding:20px;color:#aaa;font-size:11px}
+@media(min-width:700px){.cards{display:grid;grid-template-columns:1fr 1fr;gap:0}.phase{grid-column:1/-1}}
+@media(min-width:1000px){body{max-width:960px;margin:0 auto}}
+</style>
+</head>
+<body>
+<div class="title-bar">日本川崎 House Dance Crossing 五日行程 2026 ✈️<br>上海浦东 PVG → 东京成田 NRT &nbsp;|&nbsp; 3月21日–25日 &nbsp;|&nbsp; 预算约 ¥50,000+ CNY（两人）</div>
+<div class="allergy-bar">
+  <span>⚠️ 州：虾蟹过敏 | 老婆：无过敏 🦐🦀可正常食用</span>
+  <button class="speak-btn" data-jp="エビとカニのアレルギーがあります">🔊 播放过敏日语</button>
+</div>
+<div class="progress-wrap">
+  <span id="plabel">已完成 0 / 41 项</span>
+  <div class="progress-bar"><div class="progress-fill" id="pfill" style="width:0%"></div></div>
+  <span id="ppct">0%</span>
+</div>
+<div id="main" class="cards"></div>
+<div class="footer">✅ 点击勾选框标记完成 · 进度自动保存到本地 · 🔊按钮可播放日语给服务员听</div>
+<script>
+// ── 语音播放 ──
+function speak(t){
+  if(!window.speechSynthesis){
+    alert('您的浏览器暂不支持语音合成，请使用最新版Chrome或Safari');
+    return;
+  }
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(t);
+  u.lang='ja-JP';u.rate=0.85;u.pitch=1;
+  speechSynthesis.speak(u);
+}
+// 全局委托处理speak-btn点击
+document.addEventListener('click',function(e){
+  const btn=e.target.closest('[data-jp]');
+  if(btn){speak(btn.dataset.jp);}
+});
+
+// ── 行程数据 ──
+const D=[
+ {P:"📋 行前准备清单 — 出发前完成（按截止日期排序）"},
+ {n:1,s:"出发前 立即",t:"—",y:"✈️ 机票",b:"bg-prep",
+  map:"https://maps.google.com/?q=上海浦东国际机场+PVG",
+  ti:"购买往返机票（大型航空公司）",
+  de:"去程：3/21 PVG→NRT  ｜  回程：3/25 NRT→PVG\n两人购票，选经济舱或超级经济舱（PE）",
+  opts:[
+   {l:"【推荐★】东航 MU（A330/B777宽体，班次最多，行李额宽松）",ls:[["🔗 东航官网","https://www.ceair.com"],["🔗 携程搜索东航","https://flights.ctrip.com/international/roundtrip/pvg-nrt-nrt-pvg?depdate=2026-03-21_2026-03-25&adult=2&child=0"]]},
+   {l:"【选项B】国航 CA（B787/A330，服务稳定）",ls:[["🔗 国航官网","https://www.airchina.com.cn"],["🔗 Google Flights","https://www.google.com/travel/flights?q=flights+from+PVG+to+NRT+on+2026-03-21+return+2026-03-25&hl=zh-CN"]]},
+   {l:"【选项C】ANA 全日空 NH（日系服务一流，可选PE升舱）",ls:[["🔗 ANA官网","https://www.ana.co.jp/zh/cn/"]]}],
+  co:"约 ¥3,000–8,000 CNY/人（视舱位而定）",no:"⚠️ 早订更便宜；宽体机行李额通常23kg托运+7kg手提"},
+ {n:2,s:"出发前 立即",t:"—",y:"🎟️ 门票",b:"bg-prep",
+  map:"https://maps.google.com/?q=Club+Citta,+川崎市川崎区小川町4-1",
+  ti:"购买 House Dance Crossing 2026 活动门票",
+  de:"官网：hd-c.jp | 建议早鸟票，限量发售\n两人各买一张",
+  ls:[["🔗 HDC官网购票","https://hd-c.jp"]],
+  co:"约 ¥3,000–5,000 JPY/人",no:"⚠️ 可能售罄，越早买越好"},
+ {n:3,s:"出发前 立即",t:"—",y:"🏨 酒店",b:"bg-prep",
+  map:"https://maps.google.com/?q=Hotel+Mets+Kawasaki,+神奈川県川崎市川崎区砂子1-10-6",
+  ti:"预订川崎 Hotel Mets（离 Club Citta' 步行5分钟）",
+  de:"3/21–3/25，4晚，靠近川崎站，交通便利\n双人间，2位成人\n🧺 确认有无コインランドリー（投币洗衣机）——通常在地下层或指定楼层",
+  ls:[["🔗 Hotel Mets官网","https://www.hotelmets.jp/kawasaki/"],
+      ["🔗 Booking.com搜索","https://www.booking.com/searchresults.html?ss=Hotel+Mets+Kawasaki&checkin=2026-03-21&checkout=2026-03-25&group_adults=2&no_rooms=1"]],
+  co:"约 ¥4,000–6,000/晚 ×4晚",no:"⚠️ 活动当天(3/22)周边可能售罄，早预订！酒店一般有投币洗衣机"},
+ {n:4,s:"出发前 3/15前",t:"—",y:"💃 舞蹈课",b:"bg-dance",
+  map:"https://maps.google.com/?q=Raise+Up+Studio+Jiyugaoka+自由が丘",
+  ti:"预约3/23 Raise Up Studio 舞蹈课（Hiro老师）",
+  de:"✅ 已确认：3/23(周一) = Hiro老师 固定课日！\n时间：21:00–22:30 | 地点：自由が丘（Raise Up Studio）\n\n📧 发邮件预约：hiroalmadf@gmail.com\n  邮件内容：人数(2人)、姓名、参加日期(3月23日)\n  选择课程：BEGINNER CLASS ¥2,500 或 HOUSE WS ¥3,000\n\n🔗 官网在线预约：airrsv.net/raiseupstudio/calendar\n⚠️ 出发前必须提前预约确认，额定人数有限！",
+  ls:[["🔗 Raise Up Studio官网","https://www.raiseup-studio.com/lesson-info/"],
+      ["🔗 在线预约日历","https://airrsv.net/raiseupstudio/calendar"],
+      ["🔗 @hiroalma IG","https://www.instagram.com/hiroalma"]],
+  co:"¥2,500–3,000 JPY/人",no:"3/23是周一，Hiro固定课！发邮件至 hiroalmadf@gmail.com"},
+ {n:5,s:"出发前 3/18前",t:"—",y:"🍜 餐厅",b:"bg-food",
+  map:"https://maps.google.com/?q=実吉+川崎+居酒屋",
+  ti:"预约热门餐厅",
+  opts:[
+   {l:"【可选A】一兰拉面川崎店（无需预约，州专属猪骨拉面）",ls:[["🔗 一兰官网","https://ichiran.com"]]},
+   {l:"【可选B】実吉（Jittan）川崎居酒屋（有新鲜刺身，老婆强推！）",ls:[["🔗 実吉食べログ","https://tabelog.com/kanagawa/A1405/A140501/14000621/"]]},
+   {l:"【可选C】川崎魚民居酒屋（海鲜丰富，两人都能吃到喜欢的）"}],
+  co:"约 ¥1,500–4,000/人",no:"老婆可点海鲜刺身，选附近步行可达的餐厅"},
+ {n:6,s:"出发前 3/19前",t:"—",y:"📱 SIM卡",b:"bg-prep",
+  map:"https://maps.google.com/?q=上海浦东国际机场+T2航站楼",
+  ti:"购买日本上网SIM卡",
+  de:"两人各买一张",
+  opts:[
+   {l:"【选项A】淘宝购日本SIM（7天无限流量，约¥50–80 CNY）",ls:[["🔗 淘宝搜索","https://s.taobao.com/search?q=%E6%97%A5%E6%9C%ACSIM%E5%8D%A1+7%E5%A4%A9"]]},
+   {l:"【选项B】机场取 IIJmio / 楽天 SIM（落地即用）"}],
+  co:"约 ¥50–120 CNY/人",no:"建议选有通话功能的SIM"},
+ {n:7,s:"出发前 3/20前",t:"—",y:"💴 换汇",b:"bg-prep",
+  map:"https://maps.google.com/?q=上海浦东国际机场+外币兑换",
+  ti:"兑换日元（JPY），建议两人合计 ¥200,000–250,000",
+  de:"建议现金备足 ¥200,000 JPY（两人合计），余下用信用卡",
+  opts:[
+   {l:"【选项A】上海浦东机场换汇（方便，汇率略差）"},
+   {l:"【选项B】招行/工行网点换汇（汇率好，需提前预约）",ls:[["🔗 招行换汇预约","https://www.cmbchina.com"]]},
+   {l:"【选项C】日本7-Eleven / 邮政ATM取款（备用）"}],
+  co:"约 ¥9,000–11,000 CNY（两人）",no:"日本很多小店不接受信用卡，现金必备"},
+ {n:8,s:"出发前 打包时",t:"—",y:"🧳 行李",b:"bg-prep",
+  map:"https://maps.google.com/?q=凯德嘉博名邸+上海",
+  ti:"行李清单（春秋手提限7kg）",
+  de:"📋 证件类：护照/签证、门票截图、保险单\n👗 衣物（每人，酒店有洗衣机可少带）：\n  • 轻薄外套/风衣 ×1（川崎3月8–16°C，必备！）\n  • 长袖T恤 ×3套\n  • 牛仔裤/休闲裤 ×2条\n  • 舞蹈服套装 ×2套（HDC+上课各一套）\n  • 内衣裤 ×4套 | 袜子 ×4双\n  • 折叠雨伞 ×1（3月有雨可能）\n👟 鞋类：舞蹈鞋 ×1双 + 旅行鞋 ×1双\n🔌 其他：充电宝（随身）、变压器（日本100V）、洗漱用品",
+  ls:[],
+  co:"—",no:"⚠️ 超重罚款很贵！酒店有洗衣机，衣物可精简"},
+
+ {P:"✈️ Day 1 — 3月21日(六)  出发日 · 上海 → 川崎"},
+ {n:9,s:"Day1 3/21",t:"05:30",y:"🚕 出行",b:"bg-flight",
+  map:"https://maps.google.com/?q=上海浦东国际机场",
+  ti:"从凯德嘉博名邸出发前往浦东机场",
+  de:"建议打车/网约车，约40分钟\n国际航班建议提前3小时到机场",
+  outfit:"👗 旅行日穿搭：长袖T恤 + 轻薄外套 + 牛仔裤 + 旅行鞋\n⚠️ 外套随身携带，勿托运！上海清晨较凉\n🧳 行李额：视购票航司而定，宽体机通常23kg托运+7kg手提",
+  ls:[["🔗 滴滴预约","https://www.didiglobal.com"]],
+  co:"约 ¥150–200 CNY",no:"⚠️ 清晨出发！建议前一晚预约好车"},
+ {n:10,s:"Day1 3/21",t:"约08:00–11:00起飞",y:"✈️ 起飞",b:"bg-flight",
+  map:"https://maps.google.com/?q=上海浦东国际机场+T1航站楼",
+  ti:"上海浦东 PVG → 东京成田 NRT",
+  de:"飞行约2小时10分钟，具体班次以购票时确认为准",
+  opts:[
+   {l:"【推荐★】东航 MU（上午多班次，含MU539/MU531等）",ls:[["🔗 东航官网订票","https://www.ceair.com"]]},
+   {l:"【选项B】国航 CA（PVG→NRT早班或午班）",ls:[["🔗 国航官网订票","https://www.airchina.com.cn"]]},
+   {l:"【选项C】ANA 全日空 NH921（约10:00出发，13:45抵达）",ls:[["🔗 ANA官网订票","https://www.ana.co.jp/zh/cn/"]]}],
+  co:"（含票价）",no:"提前在线值机选座；T1/T2视购票航司确认"},
+ {n:11,s:"Day1 3/21",t:"13:05→14:30",y:"🛬 入境",b:"bg-flight",
+  map:"https://maps.google.com/?q=成田国際空港+Narita+International+Airport",
+  ti:"成田机场入境 + 过海关",
+  de:"落地→取行李→入境审查→海关申报\n建议提前填写 Visit Japan Web 加速通关",
+  ls:[["🔗 Visit Japan Web","https://vjw-lp.digital.go.jp"]],
+  co:"—",no:"⚠️ 排队可能较长，保持耐心"},
+ {n:12,s:"Day1 3/21",t:"15:00→16:00",y:"🚆 交通",b:"bg-trans",
+  map:"https://maps.google.com/?q=川崎駅+Kawasaki+Station",
+  ti:"成田 → 川崎",
+  opts:[
+   {l:"【选项A】N'EX 成田→品川→川崎（约90分钟，¥3,070 JPY/人）",ls:[["🔗 N'EX预订","https://www.jreast.co.jp/e/nex/"]]},
+   {l:"【选项B】京成电铁+JR（约2小时，¥1,500 JPY/人，省钱）",ls:[["🔗 乘换案内","https://transit.yahoo.co.jp"]]}],
+  co:"¥1,500–3,070 JPY/人",no:"Suica卡可在成田机场JR柜台购买"},
+ {n:13,s:"Day1 3/21",t:"16:00→17:00",y:"🏨 入住",b:"bg-rest",
+  map:"https://maps.google.com/?q=Hotel+Mets+Kawasaki,+神奈川県川崎市川崎区砂子1-10-6",
+  ti:"Hotel Mets 川崎 办理入住",
+  de:"地址：神奈川県川崎市川崎区砂子1-10-6\n步行至 Club Citta' 约5分钟\n🧺 入住时顺便询问前台：コインランドリーはどこですか？（投币洗衣机在哪里？）",
+  ls:[["🔗 Hotel Mets官网","https://www.hotelmets.jp/kawasaki/"]],
+  jp:[["チェックインをお願いします","办理入住"],["コインランドリーはどこですか？","洗衣机在哪里？"]],
+  co:"（含订房费）",no:"退房时间12:00，可付费延迟"},
+ {n:14,s:"Day1 3/21",t:"17:30→20:00",y:"🗺️ 探索",b:"bg-shop",
+  map:"https://maps.google.com/?q=LaZona+Kawasaki+Plaza",
+  ti:"川崎站周边探索",
+  de:"• Lazona川崎购物中心（步行5分钟）\n• 川崎银柳街商业街\n• 顺便熟悉明天活动路线",
+  ls:[["🔗 Lazona川崎","https://www.lazona-kawasaki.com"]],
+  co:"—",no:"可以在便利店买明天活动的零食/饮料"},
+ {n:15,s:"Day1 3/21",t:"20:00→21:30",y:"🍜 晚餐",b:"bg-food",
+  map:"https://maps.google.com/?q=一蘭拉麺+川崎店,+川崎市川崎区砂子2-13-14",
+  ti:"晚餐：一兰拉面（川崎店）",
+  de:"个人小隔间，浓厚猪骨汤底\n地址：川崎市川崎区砂子2-13-14\n州：点猪骨拉面，⚠️若有配料含虾蟹请告知\n老婆：可加点海鲜小食或选择邻近海鲜居酒屋",
+  ls:[["🔗 一兰拉面","https://ichiran.com"]],
+  jp:[["エビとカニのアレルギーがあります","虾蟹过敏告知（州专用）"]],
+  co:"约 ¥890–1,500 JPY/人",no:"独享小隔间，可选汤底浓淡"},
+
+ {P:"💃 Day 2 — 3月22日(日)  House Dance Crossing 2026 主活动日"},
+ {n:16,s:"Day2 3/22",t:"08:00→09:30",y:"🍳 早餐",b:"bg-food",
+  map:"https://maps.google.com/?q=Hotel+Mets+Kawasaki",
+  ti:"酒店早餐 or 便利店早餐",
+  de:"• 酒店自助早餐（如有）\n• 7-Eleven / FamilyMart 饭团+咖啡\n两人早餐要吃好，全天跳舞消耗大！",
+  outfit:"👗 HDC活动日穿搭：舞蹈服套装 + 舞蹈鞋\n包内备：换洗T恤×1（大汗后更换）+ 外套（出入场馆温差大）",
+  ls:[],
+  co:"约 ¥500–1,500 JPY/人",no:"全天站立跳舞，早餐要吃饱！"},
+ {n:17,s:"Day2 3/22",t:"10:00→11:00",y:"💃 准备",b:"bg-dance",
+  map:"https://maps.google.com/?q=Club+Citta,+川崎市川崎区小川町4-1",
+  ti:"换演出服装，步行前往 Club Citta'",
+  de:"路线：Hotel Mets → Club Citta'（步行约5分钟）\nClub Citta' 地址：川崎市川崎区小川町4-1",
+  ls:[],
+  co:"—",no:"提前踩点，确认入场流程和行李寄存"},
+ {n:18,s:"Day2 3/22",t:"11:00→23:00",y:"🎉 活动",b:"bg-event",
+  map:"https://maps.google.com/?q=Club+Citta,+川崎市川崎区小川町4-1",
+  ti:"★ House Dance Crossing 2026 ★",
+  de:"Club Citta'，川崎\n• Battle赛事观赛/参赛\n• Workshop课程（提前查看lineup）\n• 与顶级 House dancer 同场\n• 全天活动，持续到深夜",
+  ls:[["🔗 HDC活动官网","https://hd-c.jp"],
+      ["🔗 Instagram","https://www.instagram.com/housedancecrossing/"]],
+  co:"（含门票费）",no:"⚠️ 全程站立，带舒适舞鞋！带好水和零食"},
+ {n:19,s:"Day2 3/22",t:"23:30→01:00",y:"🍻 宵夜",b:"bg-food",
+  map:"https://maps.google.com/?q=実吉+川崎+居酒屋",
+  ti:"活动结束后宵夜",
+  opts:[
+   {l:"【推荐★】実吉（Jittan）川崎居酒屋 — 烤串+老婆强推新鲜刺身拼盘",ls:[["🔗 実吉食べログ","https://tabelog.com/kanagawa/A1405/A140501/14000621/"]]},
+   {l:"【选项B】魚民居酒屋 — 海鲜丰富，两人都能各取所好"},
+   {l:"【选项C】便利店宵夜（疲劳时省力选择）"}],
+  jp:[["エビとカニのアレルギーがあります","虾蟹过敏告知（州专用）"],["おすすめは何ですか？","推荐什么菜？"]],
+  co:"约 ¥2,000–4,000 JPY/人",no:"活动可能延迟结束，注意末班电车"},
+
+ {P:"🕺 Day 3 — 3月23日(一)  涩谷购物 + 晚间自由が丘舞蹈课"},
+ {n:20,s:"Day3 3/23",t:"08:30→09:30",y:"🍳 早餐",b:"bg-food",
+  map:"https://maps.google.com/?q=川崎駅+Kawasaki+Station",
+  ti:"早餐：酒店 or 涩谷途中",
+  de:"建议搭车前在川崎站附近吃\n• 酒店自助\n• 7-Eleven 饭团+咖啡组合",
+  outfit:"👗 今日穿搭：休闲服+旅行鞋（白天逛涩谷/原宿）\n晚上21:00舞蹈课→记得带舞蹈服换装！\n☔ 今日有雨可能，带折叠伞！",
+  ls:[],
+  co:"约 ¥500–1,500 JPY/人",no:"昨天活动可能很累，多休息一下也没关系"},
+ {n:21,s:"Day3 3/23",t:"09:30→10:15",y:"🚆 交通",b:"bg-trans",
+  map:"https://maps.google.com/?q=渋谷駅+Shibuya+Station+Tokyo",
+  ti:"川崎 → 涩谷",
+  de:"JR东海道线/京急线 → 渋谷站，约35分钟，Suica刷卡",
+  ls:[["🔗 乘换案内","https://transit.yahoo.co.jp"]],
+  co:"约 ¥350–500 JPY/人",no:"注意携带舞蹈服和鞋子"},
+ {n:22,s:"Day3 3/23",t:"21:00–22:30",y:"💃 舞蹈课",b:"bg-dance",
+  map:"https://maps.google.com/?q=Raise+Up+Studio+Jiyugaoka+自由が丘",
+  ti:"House Dance 正规课 @ Raise Up Studio 自由が丘",
+  de:"🗓️ 3/23(周一) = Hiro老师 固定课日！每周一、五 21:00–22:30\n地点：Raise Up Studio（自由が丘站步行5分钟）\n\n📋 课程详情：\n  • BEGINNER CLASS：¥2,500 JPY（初学友好）\n  • HOUSE WS（进阶）：¥3,000 JPY\n\n📧 预约方式：发邮件至 hiroalmadf@gmail.com\n  注明：人数、姓名、参加日期（3月23日）\n⚠️ 额定人数有限，出发前务必提前预约确认！\n\n🚆 交通：涩谷→自由が丘 8分钟（東急东横线）",
+  ls:[["🔗 Raise Up Studio 官网","https://www.raiseup-studio.com/lesson-info/"],
+      ["🔗 在线预约","https://airrsv.net/raiseupstudio/calendar"],
+      ["🔗 @hiroalma IG","https://www.instagram.com/hiroalma"]],
+  co:"¥2,500–3,000 JPY/人",no:"3/23是周一，Hiro固定课日！提前发邮件预约"},
+ {n:23,s:"Day3 3/23",t:"13:30→14:30",y:"🍱 午餐",b:"bg-food",
+  map:"https://maps.google.com/?q=牛かつもと村+渋谷本店,+渋谷区道玄坂2-6-17",
+  ti:"午餐：牛カツもと村（涩谷本店）",
+  de:"招牌：稀有炸牛排（牛かつ），两人均可吃\n地址：渋谷区道玄坂2-6-17，排队约15–30分钟\n老婆：可加点刺身套餐或海鲜小钵\n州：⚠️若有配料含虾蟹请告知",
+  ls:[["🔗 牛カツもと村","https://gyukatsu-motomura.com"]],
+  jp:[["エビとカニのアレルギーがあります","虾蟹过敏告知（州专用）"]],
+  co:"约 ¥1,500–2,500 JPY/人",no:""},
+ {n:24,s:"Day3 3/23",t:"14:30→17:00",y:"🛍️ 购物",b:"bg-shop",
+  map:"https://maps.google.com/?q=Shibuya+Scramble+Crossing+Tokyo",
+  ti:"涩谷周边逛街购物",
+  de:"• 涩谷 Scramble Square / Hikarie\n• Shibuya 109（潮流服饰）\n• Tower Records涩谷（音乐文化地标）\n• 代官山Tsutaya Books",
+  ls:[],
+  co:"随个人",no:"涩谷适合买舞蹈服装和运动鞋"},
+ {n:25,s:"Day3 3/23",t:"17:00→19:00",y:"👗 原宿",b:"bg-shop",
+  map:"https://maps.google.com/?q=竹下通+Takeshita+Street+Harajuku+Tokyo",
+  ti:"原宿/竹下通 购物",
+  de:"• 竹下通（创意时尚街）\n• Harajuku 古着店（二手复古）\n• 表参道（高端品牌）",
+  ls:[],
+  co:"随个人",no:"原宿距涩谷步行约15分钟"},
+ {n:26,s:"Day3 3/23",t:"18:00→20:00",y:"🍣 晚餐",b:"bg-food",
+  map:"https://maps.google.com/?q=うおがし鮨+渋谷",
+  ti:"晚餐：涩谷/原宿周边海鲜寿司（老婆首选！）",
+  de:"州：⚠️若寿司含虾蟹请告知服务员",
+  opts:[
+   {l:"【推荐★】うおがし鮨（涩谷海鲜寿司，老婆可放开点！）",ls:[["🔗 Tabelog涩谷寿司","https://tabelog.com/tokyo/A1303/A130301/rstLst/?SrtT=trend&LstCosT=0,0&RdoSt=0&LstCat=&adr=&LstSitu=&LstVCd=&LstVCd2="]]},
+   {l:"【选项B】廻る天下寿司 涩谷店（回转寿司，性价比高）",ls:[["🔗 天下寿司","https://tabelog.com/tokyo/A1303/A130301/13012918/"]]},
+   {l:"【选项C】やきとり大吉（居酒屋烤鸡串，两人均可）"}],
+  jp:[["エビとカニのアレルギーがあります","虾蟹过敏告知（州专用）"],["おすすめは何ですか？","推荐什么菜？"]],
+  co:"约 ¥2,000–4,000 JPY/人",no:"晚餐后记得查好末班电车时间"},
+ {n:41,s:"Day4 3/24",t:"07:00→08:00",y:"🧺 洗衣",b:"bg-laundry",
+  map:"https://maps.google.com/?q=Hotel+Mets+Kawasaki,+神奈川県川崎市川崎区砂子1-10-6",
+  ti:"酒店投币洗衣机（コインランドリー）",
+  de:"Hotel Mets 川崎设有投币洗衣机（通常在地下或指定楼层）\n建议洗：Day1-3的舞蹈服 + 日常换洗衣物\n⏰ 趁早起洗衣，出门前搞定！\n\n使用方法：\n  • 洗衣机：约 ¥200–300 JPY / 次（约30–40分钟）\n  • 烘干机：约 ¥100 JPY / 10分钟\n  • 洗衣液：自动贩卖机购买（约 ¥100–200 JPY）\n\n晾干技巧：不急用的衣物可晾在浴室，利用浴室暖风烘干",
+  ls:[],
+  jp:[["コインランドリーはどこですか？","请问投币洗衣机在哪里？"]],
+  co:"约 ¥600–1,000 JPY（两人合洗一次）",no:"🎉 洗完后Day4-5的衣物轻装出行！"},
+
+ {P:"🗼 Day 4 — 3月24日(二)  新宿观光 + 神社"},
+ {n:27,s:"Day4 3/24",t:"08:30→09:30",y:"🍳 早餐",b:"bg-food",
+  map:"https://maps.google.com/?q=Hotel+Mets+Kawasaki",
+  ti:"早餐：酒店或新宿途中",
+  opts:[
+   {l:"【选项A】酒店自助早餐"},
+   {l:"【选项B】新宿高野水果店早餐套餐（新鲜水果沙拉，老婆必试！）",ls:[["🔗 新宿高野","https://www.takano.jp/shop/shinjuku/"]]}],
+  outfit:"👗 新宿+神社穿搭：休闲时尚服装（适合拍照！）\n轻薄外套必带 + 舒适步行鞋（今日步行多）\n今早洗好的衣物今日可穿 ✓（早上7点洗衣已完成）",
+  co:"约 ¥500–2,000 JPY/人",no:""},
+ {n:28,s:"Day4 3/24",t:"09:30→10:15",y:"🚆 交通",b:"bg-trans",
+  map:"https://maps.google.com/?q=新宿駅+Shinjuku+Station+Tokyo",
+  ti:"川崎 → 新宿",
+  de:"JR东海道线 → 新宿站（约40分钟）",
+  ls:[["🔗 乘换案内","https://transit.yahoo.co.jp"]],
+  co:"约 ¥580 JPY/人",no:""},
+ {n:29,s:"Day4 3/24",t:"10:30→12:30",y:"🛍️ 购物",b:"bg-shop",
+  map:"https://maps.google.com/?q=新宿伊勢丹百貨店+Shinjuku+Isetan",
+  ti:"新宿购物",
+  de:"• 新宿伊勢丹百货（顶级百货）\n• ユニクロ新宿（服装采购）\n• ヨドバシカメラ（电子产品）",
+  ls:[],
+  co:"随个人",no:"新宿是东京最大购物区，一站购齐"},
+ {n:30,s:"Day4 3/24",t:"12:30→13:30",y:"🍜 午餐",b:"bg-food",
+  map:"https://maps.google.com/?q=風雲児+新宿,+新宿区西新宿7-2-6",
+  ti:"午餐：風雲児（Fuuunji）",
+  de:"招牌：浓厚つけ麺（沾面）\n地址：新宿区西新宿7-2-6\n⚠️ 人气极高，建议12:00前到排队\n两人均可放心食用（猪骨汤底，无虾蟹）",
+  ls:[["🔗 風雲児食べログ","https://tabelog.com/tokyo/A1304/A130401/13060071/"]],
+  jp:[["エビとカニのアレルギーがあります","虾蟹过敏告知（州专用）"]],
+  co:"约 ¥900–1,200 JPY/人",no:"限定汤头，不喝汤有点浪费"},
+ {n:31,s:"Day4 3/24",t:"14:00→15:30",y:"🏙️ 观景",b:"bg-rest",
+  map:"https://maps.google.com/?q=東京都庁+Tokyo+Metropolitan+Government+Building,+新宿区西新宿2-8-1",
+  ti:"东京都厅展望台（免费！）",
+  de:"地址：新宿区西新宿2-8-1\n高度202米，360度俯瞰东京全景，免费入场",
+  ls:[["🔗 东京都厅官网","https://www.yokoso.metro.tokyo.lg.jp"]],
+  co:"免费",no:"天气好可以看到富士山！早去避开人群"},
+ {n:32,s:"Day4 3/24",t:"15:30→17:30",y:"⛩️ 神社",b:"bg-rest",
+  map:"https://maps.google.com/?q=明治神宮+Meiji+Jingu,+渋谷区代々木神園町1-1",
+  ti:"明治神宫参拜",
+  de:"地址：渋谷区代々木神園町1-1\n从新宿坐JR山手线约5分钟到原宿站\n步行约20分钟到正殿，祈愿、买御守（护身符）",
+  ls:[["🔗 明治神宫官网","https://www.meijijingu.or.jp"]],
+  co:"御守约¥500–1,000 JPY",no:"原宿站出来即到，和竹下通相邻"},
+ {n:33,s:"Day4 3/24",t:"18:30→20:30",y:"🍱 晚餐",b:"bg-food",
+  map:"https://maps.google.com/?q=磯丸水産+新宿店",
+  ti:"晚餐：新宿/涩谷周边（两人口味可兼顾）",
+  de:"州：⚠️若含虾蟹请告知服务员",
+  opts:[
+   {l:"【推荐★】磯丸水産 新宿店（海鲜居酒屋，老婆可大啖刺身！）",ls:[["🔗 磯丸水産","https://tabelog.com/tokyo/A1304/A130401/13004289/"]]},
+   {l:"【选项B】叙々苑（高端烤肉，有¥15,000套餐，豪华选择）",ls:[["🔗 叙々苑官网","https://www.jojoen.co.jp"]]},
+   {l:"【选项C】鳥貴族（平价烤鸡串，¥328/串，性价比高）",ls:[["🔗 鳥貴族","https://www.torikizoku.co.jp"]]}],
+  jp:[["エビとカニのアレルギーがあります","虾蟹过敏告知（州专用）"],["おすすめは何ですか？","推荐什么菜？"]],
+  co:"约 ¥2,000–8,000 JPY/人",no:""},
+
+ {P:"🛫 Day 5 — 3月25日(三)  返程日 · 川崎 → 成田 → 上海"},
+ {n:34,s:"Day5 3/25",t:"07:00→08:00",y:"🏨 退房",b:"bg-rest",
+  map:"https://maps.google.com/?q=Hotel+Mets+Kawasaki,+神奈川県川崎市川崎区砂子1-10-6",
+  ti:"Hotel Mets 办理退房",
+  de:"退房时间：12:00前（如需晚退，需另付费）\n行李可寄存在前台直到出发",
+  outfit:"👗 返程日穿搭：轻便舒适旅行服\n确认行李≤7kg（春秋手提限重）\n所有洗好的衣物已折叠装包 ✓",
+  ls:[],
+  co:"—",no:"记得检查房间、插座、保险箱，取回所有物品"},
+ {n:35,s:"Day5 3/25",t:"08:00→09:00",y:"🍳 早餐",b:"bg-food",
+  map:"https://maps.google.com/?q=川崎駅+Kawasaki+Station",
+  ti:"最后早餐：川崎站附近",
+  opts:[
+   {l:"【选项A】酒店早餐"},
+   {l:"【选项B】Lazona川崎美食区",ls:[["🔗 Lazona川崎","https://www.lazona-kawasaki.com"]]},
+   {l:"【选项C】星巴克川崎"}],
+  co:"约 ¥500–2,000 JPY/人",no:""},
+ {n:36,s:"Day5 3/25",t:"09:00→11:00",y:"🛍️ 最后购物",b:"bg-shop",
+  map:"https://maps.google.com/?q=LaZona+Kawasaki+Plaza+ラゾーナ川崎",
+  ti:"Lazona川崎 最后扫货",
+  de:"• ドラッグストア（药妆店）采购手信\n• 便利店零食 / 大创百元店纪念品\n• 7-Eleven提款（最后用日元）",
+  ls:[["🔗 Lazona川崎","https://www.lazona-kawasaki.com"]],
+  co:"预算自定",no:"日元花不完可以买零食，回国换汇损耗大"},
+ {n:37,s:"Day5 3/25",t:"11:00→12:00",y:"🍣 最后午餐",b:"bg-food",
+  map:"https://maps.google.com/?q=川崎駅+Kawasaki+Station+周辺+海鮮丼",
+  ti:"在川崎/川崎站吃最后一餐",
+  de:"州：⚠️若含虾蟹请告知",
+  opts:[
+   {l:"【推荐★】海鮮丼（海鲜盖饭）— 老婆最后机会大吃海鲜！",ls:[["🔗 Tabelog","https://tabelog.com/kanagawa/A1405/A140501/?SrtT=trend&LstCosT=0,0"]]},
+   {l:"【选项B】回味一兰拉面（州的最后猪骨）",ls:[["🔗 一兰拉面","https://ichiran.com"]]},
+   {l:"【选项C】吉野家/松屋（平价丼饭，省时）"}],
+  jp:[["お会計をお願いします","请结账"],["エビとカニのアレルギーがあります","虾蟹过敏告知（州专用）"]],
+  co:"约 ¥800–2,500 JPY/人",no:"注意出发时间，不要吃太久耽误赶车"},
+ {n:38,s:"Day5 3/25",t:"12:30→14:30",y:"🚆 前往成田",b:"bg-trans",
+  map:"https://maps.google.com/?q=成田国際空港+Narita+International+Airport",
+  ti:"川崎 → 成田机场 NRT",
+  opts:[
+   {l:"【选项A】JR + N'EX（约90分钟，¥3,070 JPY/人）",ls:[["🔗 N'EX预订","https://www.jreast.co.jp/e/nex/"]]},
+   {l:"【选项B】京急 + 成田Sky Access（约110分钟，¥1,500 JPY/人，省钱）",ls:[["🔗 乘换案内","https://transit.yahoo.co.jp"]]}],
+  co:"约 ¥1,500–3,070 JPY/人",no:"⚠️ 国际航班建议提前3小时到机场！"},
+ {n:39,s:"Day5 3/25",t:"14:30→16:30",y:"🛬 机场手续",b:"bg-flight",
+  map:"https://maps.google.com/?q=成田空港第3旅客ターミナル+Narita+Airport+Terminal+3",
+  ti:"成田机场 办理登机手续",
+  de:"• 找到春秋航空（IJ）柜台\n• 托运行李（如有）\n• 通过安检\n• 候机厅免税店（最后购物机会！）",
+  ls:[["🔗 成田机场","https://www.narita-airport.jp"]],
+  co:"—",no:"春秋航空通常在第三航站楼（LCC Terminal）"},
+ {n:40,s:"Day5 3/25",t:"约14:00–17:00起飞",y:"✈️ 回家",b:"bg-flight",
+  map:"https://maps.google.com/?q=上海浦东国际机场+Shanghai+Pudong+International+Airport",
+  ti:"东京成田 NRT → 上海浦东 PVG",
+  de:"飞行约3小时（含时差），具体班次以购票时确认为准",
+  opts:[
+   {l:"【推荐★】东航 MU（NRT→PVG 多班，含MU540等，下午班次多）",ls:[["🔗 东航官网订票","https://www.ceair.com"]]},
+   {l:"【选项B】国航 CA（NRT→PVG 下午班）",ls:[["🔗 国航官网订票","https://www.airchina.com.cn"]]},
+   {l:"【选项C】ANA 全日空 NH922（约15:15出发，18:10抵达PVG）",ls:[["🔗 ANA官网订票","https://www.ana.co.jp/zh/cn/"]]}],
+  co:"（含票价）",no:"到上海后打车回凯德嘉博名邸，约40分钟。旅途愉快！🎉"}
+];
+
+const TOTAL=41;
+const main=document.getElementById('main');
+const saved=JSON.parse(localStorage.getItem('jp2026')||'{}');
+
+function updateProgress(){
+  const all=document.querySelectorAll('.ic');
+  let done=0;
+  all.forEach(c=>{if(c.checked)done++;});
+  document.getElementById('plabel').textContent='已完成 '+done+' / '+TOTAL+' 项';
+  const p=Math.round(done/TOTAL*100);
+  document.getElementById('pfill').style.width=p+'%';
+  document.getElementById('ppct').textContent=p+'%';
+}
+function saveAll(){
+  const s={};
+  document.querySelectorAll('.ic').forEach(c=>{s[c.dataset.id]=c.checked;});
+  localStorage.setItem('jp2026',JSON.stringify(s));
+}
+
+D.forEach(r=>{
+  if(r.P){
+    const d=document.createElement('div');
+    d.className='phase';d.textContent=r.P;main.appendChild(d);return;
+  }
+  const id='i'+r.n;
+  const done=!!saved[id];
+  const card=document.createElement('div');
+  card.className='card '+r.b+(done?' done':'');
+  const ls=(r.ls||[]).map(([t,u])=>`<a class="link-btn" href="${u}" target="_blank" rel="noopener">${t}</a>`).join('');
+  const jp=(r.jp||[]).map(([t,l])=>`<button class="speak-btn" data-jp="${t.replace(/"/g,'&quot;')}">🔊 ${l}</button>`).join('');
+  const outfitHtml=r.outfit?`<div class="outfit-bar"><strong>👗 穿搭建议：</strong>${r.outfit.replace(/\n/g,'<br>')}</div>`:'';
+  const mapHtml=r.map?`<a class="map-btn" href="${r.map}" target="_blank" rel="noopener">📍 查看地图</a>`:'';
+  const optsHtml=(r.opts||[]).map(o=>{const oLs=(o.ls||[]).map(([t,u])=>`<a class="link-btn" href="${u}" target="_blank" rel="noopener">${t}</a>`).join('');return `<div class="opt-item">${o.l}${oLs?`<span class="opt-btns">${oLs}</span>`:''}</div>`;}).join('');
+  card.innerHTML=`<div class="chk-wrap"><input type="checkbox" class="ic" data-id="${id}"${done?' checked':''}></div>
+<div class="card-body">
+  <div class="card-meta"><span class="seq">${r.n}</span><span class="stage">${r.s}</span><span class="time">${r.t}</span><span class="type">${r.y}</span></div>
+  <div class="item-title">${r.ti}</div>
+  ${r.de?`<div class="item-detail">${r.de}</div>`:''}
+  ${optsHtml?`<div class="opts-block">${optsHtml}</div>`:''}
+  ${outfitHtml}
+  ${mapHtml||ls||jp?`<div class="link-row">${mapHtml}${ls}${jp}</div>`:''}
+  <div class="meta-row">${r.co?`<span class="cost">💰 ${r.co}</span>`:''} ${r.no?`<span class="note">${r.no}</span>`:''}</div>
+</div>`;
+  card.querySelector('.ic').addEventListener('change',function(){
+    if(this.checked)card.classList.add('done');else card.classList.remove('done');
+    saveAll();updateProgress();
+  });
+  main.appendChild(card);
+});
+updateProgress();
+
+// ── 日语实用短句区 ──
+const PHRASES=[
+  {jp:"エビとカニのアレルギーがあります",rom:"Ebi to kani no arerugii ga arimasu",cn:"我（州）对虾和蟹过敏"},
+  {jp:"エビやカニは入っていますか？",rom:"Ebi ya kani wa haitte imasu ka?",cn:"这道菜里有虾或者蟹吗？"},
+  {jp:"二人なのですが、席はありますか？",rom:"Futari nano desu ga, seki wa arimasu ka?",cn:"我们两人，请问有空位吗？"},
+  {jp:"おすすめは何ですか？",rom:"Osusume wa nan desu ka?",cn:"你们推荐什么菜？"},
+  {jp:"お会計をお願いします",rom:"Okaikei wo onegaishimasu",cn:"请结账"},
+  {jp:"同じものをもう一つください",rom:"Onaji mono wo mou hitotsu kudasai",cn:"再来一份同样的"},
+  {jp:"チェックインをお願いします",rom:"Chekkuin wo onegaishimasu",cn:"我要办理入住"},
+  {jp:"コインランドリーはどこですか？",rom:"Koin randorii wa doko desu ka?",cn:"请问投币洗衣机在哪里？"},
+  {jp:"川崎駅までお願いします",rom:"Kawasaki eki made onegaishimasu",cn:"（打车）请去川崎站"},
+  {jp:"成田空港までお願いします",rom:"Narita kuukou made onegaishimasu",cn:"（打车）请去成田机场"},
+  {jp:"ありがとうございます",rom:"Arigatou gozaimasu",cn:"非常感谢"},
+  {jp:"すみません",rom:"Sumimasen",cn:"打扰一下 / 不好意思"},
+  {jp:"英語か中国語を話せる方はいますか？",rom:"Eigo ka Chuugokugo wo hanaseru kata wa imasu ka?",cn:"有人会说英语或中文吗？"},
+];
+
+const ps=document.createElement('div');
+ps.className='phrase-section';
+ps.innerHTML='<h2>🗣️ 日语实用短句 — 点击播放给服务员听</h2>'+
+PHRASES.map(p=>`<div class="phrase-item">
+  <div class="phrase-jp">${p.jp}</div>
+  <div class="phrase-rom">${p.rom}</div>
+  <div class="phrase-cn">${p.cn}</div>
+  <div class="phrase-actions">
+    <button class="phrase-speak-btn" data-jp="${p.jp.replace(/"/g,'&quot;')}">🔊 播放日语</button>
+    <a class="link-btn" href="https://translate.google.com/?sl=ja&tl=zh-CN&text=${encodeURIComponent(p.jp)}&op=translate" target="_blank" rel="noopener">🔗 Google翻译</a>
+  </div>
+</div>`).join('');
+main.after(ps);
+
+// ── 衣物指南 ──
+const WEATHER_DATA=[
+  {d:"3/21(六) 出发日",t:"9–15°C",ic:"🌤️",tip:"外套必穿，上海清晨约10°C"},
+  {d:"3/22(日) HDC活动日",t:"10–16°C",ic:"☀️",tip:"最暖一天，白天可只穿长袖"},
+  {d:"3/23(一) 舞蹈课+涩谷",t:"8–14°C",ic:"🌦️",tip:"有雨可能，带折叠伞"},
+  {d:"3/24(二) 新宿+神社",t:"9–15°C",ic:"☁️",tip:"多云微凉，外套+舒适鞋"},
+  {d:"3/25(三) 返程日",t:"8–14°C",ic:"🌥️",tip:"早晨较凉，穿好外套出门"},
+];
+const PACKING_LIST=[
+  "轻薄外套/风衣 ×1/人",
+  "长袖T恤 ×3件/人",
+  "牛仔裤/休闲裤 ×2条/人",
+  "舞蹈服套装 ×2套/人",
+  "内衣裤 ×4套/人",
+  "袜子 ×4双/人",
+  "舞蹈鞋 ×1双/人",
+  "旅行运动鞋 ×1双/人",
+  "折叠雨伞 ×1/人",
+  "睡衣 ×1套/人（可选）",
+];
+const DAY_CLOTH=[
+  {day:"Day1 出发·抵达",icon:"🛫",outfit:"长袖T恤 + 轻薄外套 + 牛仔裤 + 旅行鞋\n⚠️ 外套随身，勿托运！"},
+  {day:"Day2 HDC活动全天",icon:"💃",outfit:"舞蹈服+舞蹈鞋（全程穿）\n包内备：换洗T恤（大汗后用）+ 外套"},
+  {day:"Day3 涩谷+晚间舞蹈课",icon:"🕺",outfit:"白天：休闲服+旅行鞋（逛涩谷/原宿）\n包内带舞蹈服→21:00换装上课\n带折叠伞！☔  洗衣移到Day4早晨🧺"},
+  {day:"Day4 新宿+明治神宫",icon:"⛩️",outfit:"休闲时尚穿搭（适合神社拍照）\n轻薄外套 + 舒适步行鞋"},
+  {day:"Day5 返程",icon:"🛬",outfit:"轻便旅行服（机场安检方便）\n确认行李 ≤7kg！"},
+];
+
+const cs=document.createElement('div');
+cs.className='cloth-section';
+let clothOpen=false;
+cs.innerHTML=`<h2 id="clothTitle">👗 衣物指南 · 川崎天气 &amp; 每日穿搭 <button class="cloth-toggle" id="clothBtn">展开 ▼</button></h2>
+<div id="clothBody" style="display:none">
+  <div class="weather-row">
+    <strong>🌸 川崎/东京 3月21–25日 天气预报</strong><br>
+    ${WEATHER_DATA.map(w=>`${w.ic} <strong>${w.d}</strong> ${w.t} — ${w.tip}`).join('<br>')}
+    <br><br>📌 总体提示：春季早晚温差大（6–16°C），<strong>轻薄外套必备</strong>；3/23有雨可能，<strong>折叠伞随身</strong>；樱花盛开季！
+  </div>
+  <div class="pack-grid">
+    <h3>🧳 打包清单（每人，酒店有洗衣机可精简）</h3>
+    <ul>${PACKING_LIST.map(i=>`<li>${i}</li>`).join('')}</ul>
+    <div class="laundry-tip">🧺 酒店コインランドリー：Day3晚安排洗衣，Day4-5可轻装出行。带4套内衣即够用！</div>
+  </div>
+  ${DAY_CLOTH.map(d=>`<div class="day-cloth">
+    <div class="day-cloth-title">${d.icon} ${d.day}</div>
+    <div class="day-cloth-body">${d.outfit.replace(/\n/g,'<br>')}</div>
+  </div>`).join('')}
+</div>`;
+
+// 切换展开/折叠
+cs.querySelector('#clothTitle').addEventListener('click',function(){
+  clothOpen=!clothOpen;
+  cs.querySelector('#clothBody').style.display=clothOpen?'block':'none';
+  cs.querySelector('#clothBtn').textContent=clothOpen?'收起 ▲':'展开 ▼';
+});
+
+// 插入在 main 之前（allergy-bar 之后）
+document.querySelector('.progress-wrap').before(cs);
+</script>
+</body>
+</html>
